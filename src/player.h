@@ -1,4 +1,3 @@
-// player.h
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -6,6 +5,7 @@
 
 #define INVENTORY_SIZE 12
 #define EQUIPMENT_SIZE 5
+#define MAX_STAT 999
 
 typedef enum {
 	NORTH1,
@@ -37,8 +37,6 @@ typedef struct {
     int def;
     int spd;
     int luck;
-
-    int charm_points;
 
     Item equipment[EQUIPMENT_SIZE];
     Item inventory[INVENTORY_SIZE];

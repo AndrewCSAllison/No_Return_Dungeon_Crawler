@@ -28,6 +28,7 @@
 #include "interrupt.h"
 #include "grid.h"
 #include "colors.h"
+#include "fonts.h"
 #include "items.h"
 #include "random.h"
 #include "input.h"
@@ -35,6 +36,7 @@
 #include "render.h"
 #include "log.h"
 #include "game.h"
+#include "enemy.h"
 
 #define INFO_TYPE_KERNEL_LOAD_ADDR 0x15
 #define INFO_TYPE_CMD_LINE 1
@@ -195,6 +197,15 @@ void main() {
 				spawn = generateDoor();
 				initPlayer(spawn.x, spawn.y);
 				generateLadder(spawn.x, spawn.y);
+
+				int enemyCount  = 4 + (player.luck * (MAX_ENEMY_SPAWNS - 4)) / MAX_STAT;
+				int damageCount = 4 + (player.luck * (MAX_DAMAGE_SPAWNS - 4)) / MAX_STAT;
+				int chestCount  = 1 + (player.luck * (MAX_CHEST_SPAWNS - 1)) / MAX_STAT;
+
+				spawnEnemies(enemyCount, getPlayerBaseTotal(), player.luck);
+				spawnDamageTiles(damageCount);
+				spawnChests(chestCount);
+
 				renderGrid();
 				renderPlayer();
 				renderSidebar();

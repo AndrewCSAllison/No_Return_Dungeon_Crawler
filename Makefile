@@ -72,6 +72,7 @@ OBJS = \
 	log.o \
 	game.o \
 	items.o \
+	enemy.o \
 
 # Make sure to keep a blank line here after OBJS list
 

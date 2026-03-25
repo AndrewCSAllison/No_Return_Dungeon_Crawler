@@ -10,26 +10,42 @@ void handleInput() {
            	case 'w' :
 				movePlayer(0, -1);
 				setNorth();
+				dealDamageTiles();
+				renderStats();
 				break;
            	case 's' :
 				movePlayer(0,  1);
 				setSouth();
+				dealDamageTiles();
+                renderStats();
 				break;
            	case 'a' :
 				movePlayer(-1, 0);
 				setWest();
+				dealDamageTiles();
+                renderStats();
 				break;
            	case 'd' :
 				movePlayer( 1, 0);
 				setEast();
+				dealDamageTiles();
+                renderStats();
 				break;
 			case '\t':
 				switchState(STATE_INVENTORY);
 				break;
-			case 'e' :
+			case ' ' :
 				interactLadder();
 				break;
-   	   	}
+			case 'e':
+				attackEnemy();
+				lootChest();
+				renderEnemies();
+				renderStats();
+				renderInventory();
+   	   			break;
+		}
+		renderConsole();
         last_key = 0;
 	}
 }

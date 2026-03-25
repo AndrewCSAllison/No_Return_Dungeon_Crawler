@@ -55,3 +55,13 @@ char *queuePop(Queue *q) {
     q->count--;
     return val;
 }
+
+char *buildLogFull(const char *a, const char *b, const char *c, int value) {
+    char *buf = nextBuf();
+    int pos = 0;
+    if (a) strAppend(buf, a, &pos);
+    if (b) strAppend(buf, b, &pos);
+    if (c) strAppend(buf, c, &pos);
+    if (value != 0) intAppend(buf, value, &pos);
+    return buf;
+}

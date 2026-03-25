@@ -32,13 +32,14 @@ typedef enum {
 	BOOKSHELF,		// 11
 	COFFIN,			// 12
 	ALTAR,			// 13
-	TABLE			// 14
+	TABLE,			// 14
+	ENEMY,
 } TileType;
 
 extern TileType grid[GRID_ROWS][GRID_COLS];
 
 Vec2 generateDoor();
-void generateLadder();
+void generateLadder(int px, int py);
 int loadNextRoom();
 
 #endif

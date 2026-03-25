@@ -17,5 +17,6 @@ void queuePush(Queue *q, char *val);
 char *queuePop(Queue *q);
 void logMessage(char *msg);
 char *buildLog(const char *a, const char *b, int value);
+char *buildLogFull(const char *a, const char *b, const char *c, int value);
 
 #endif

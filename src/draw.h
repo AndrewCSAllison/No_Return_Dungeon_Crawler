@@ -51,6 +51,7 @@ void drawString(unsigned char *font_data, const char *str, int x, int y, int col
 void drawGimpSprite(int x, int y, const guint8 *pixel_data, int width, int height);
 void drawStats();
 void drawConsole();
+void drawEnemies();
 void whiteScreen();
 
 #endif

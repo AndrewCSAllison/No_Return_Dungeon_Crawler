@@ -46,6 +46,10 @@ void renderConsole() {
 	drawConsole();
 }
 
+void renderEnemies() {
+	drawEnemies();
+}
+
 void renderSelectedSlot() {
     if (lastInventoryIndex != -127 && lastInventoryIndex != selectedIndex) {
         if (lastInventoryIndex < 0)

@@ -18,6 +18,7 @@ void addItem(Item *item);
 void removeItem(unsigned char index);
 void moveItem(signed char fromIndex, signed char toIndex);
 void equipItem();
+void useItem();
 void moveCursor(signed char dx, signed char dy);
 void grabOrSwap();
 

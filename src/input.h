@@ -2,5 +2,6 @@
 #define INPUT_H
 
 void handleInput();
+void handleInventoryInput();
 
 #endif

@@ -1,6 +1,7 @@
 #include "inventory.h"
 #include "items.h"
 #include "player.h"
+#include "log.h"
 
 signed char selectedIndex = 0;
 signed char grabbedIndex = 127;
@@ -87,11 +88,11 @@ void useItem() {
                 default: return;
             }
             if (player.equipment[slot].itemID != ITEM_ID_NONE) {
-                addItem(&player.equipment[slot]);
-                logMessage(buildLog("Swapped ", item->name, 0));
-            } else {
-                logMessage(buildLog("Equipped ", item->name, 0));
-            }
+			    addItem(&player.equipment[slot]);
+    			logMessage(buildLogFull("Swapped ", item->name, " +", item->value));
+			} else {
+    			logMessage(buildLogFull("Equipped ", item->name, " +", item->value));
+			}
             player.equipment[slot] = *item;
             removeItem(selectedIndex);
             calculateStats();

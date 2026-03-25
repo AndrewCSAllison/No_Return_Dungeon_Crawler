@@ -2,11 +2,9 @@
 #include "random.h"
 #include "grid.h"
 #include "inventory.h"
+#include "util.h"
 
 Player player;
-
-#define MAX_STAT 999
-#define CLAMP(x, lo, hi) ((x) < (lo) ? (lo) : (x) > (hi) ? (hi) : (x))
 
 int isBlocking(TileType t) {
     switch(t) {
@@ -19,6 +17,7 @@ int isBlocking(TileType t) {
         case COFFIN:
         case ALTAR:
         case TABLE:
+		case ENEMY:
             return 1;
         default:
             return 0;
@@ -78,7 +77,6 @@ void initPlayer(unsigned char startX, unsigned char startY) {
     player.x = startX;
     player.y = startY;
     player.currentDirection = SOUTH1;
-    player.charm_points = 0;
 
     unsigned char pool = 100;
     int stats[5];

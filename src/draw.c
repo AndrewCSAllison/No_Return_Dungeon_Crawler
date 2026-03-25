@@ -4,6 +4,7 @@
 #include "inventory.h"
 #include "textures.h"
 #include "log.h"
+#include "enemy.h"
 
 Framebuffer fb;
 
@@ -392,6 +393,17 @@ void drawConsole() {
             }
             buf[j] = '\0';
             drawString(ter_u14n_psf, buf, LOG_X, LOG_Y + 20 + (i * LOG_LINE_HEIGHT), COLOR_TEXT);
+        }
+    }
+}
+
+void drawEnemies() {
+    int i;
+    for (i = 0; i < enemyCount; i++) {
+        if (enemies[i].alive) {
+            drawTile(enemies[i].y, enemies[i].x, ENEMY);
+        } else {
+            drawTile(enemies[i].y, enemies[i].x, FLOOR);
         }
     }
 }

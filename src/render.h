@@ -11,5 +11,7 @@ void renderEquipment();
 void renderInventory();
 void renderSelectedSlot();
 void renderSidebar();
-
+void renderConsole();
+void renderStats();
+void renderEnemies();
 #endif
