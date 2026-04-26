@@ -69,6 +69,9 @@ OBJS = \
 	inventory.o \
 	maps.o \
 	util.o \
+	log.o \
+	game.o \
+	items.o \
 
 # Make sure to keep a blank line here after OBJS list
 
@@ -79,7 +82,6 @@ $(ODIR)/%.o: $(SDIR)/%.c
 
 $(ODIR)/%.o: $(SDIR)/%.s
 	$(CC) $(CFLAGS) -c -g -o $@ $^
-
 
 all: bin rootfs.img
 
@@ -111,3 +113,8 @@ debug:
 
 clean:
 	rm -f grub.img kernel rootfs.img obj/*
+
+# Recompile the entire project
+.PHONY: redo
+
+redo: clean all run

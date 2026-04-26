@@ -1,28 +1,60 @@
+// player.h
 #ifndef PLAYER_H
 #define PLAYER_H
 
 #include "items.h"
 
-#define PLAYER_SIZE 32
+#define INVENTORY_SIZE 12
+#define EQUIPMENT_SIZE 5
+
+typedef enum {
+	NORTH1,
+	NORTH2,
+	EAST1,
+	EAST2,
+	SOUTH1,
+	SOUTH2,
+	WEST1,
+	WEST2,
+} Direction;
 
 typedef struct {
-    int x;
-    int y;
+    char x;
+    char y;
+    Direction currentDirection;
+
+    // Base stats (permanent, modified by charms)
+    int baseHp;
+    int baseAtk;
+    int baseDef;
+    int baseSpd;
+    int baseLuck;
+
+    // Derived stats (base + equipment bonuses)
+    int maxHp;
     int hp;
     int atk;
     int def;
     int spd;
     int luck;
+
     int charm_points;
-    Item equipment[5];
-    Item inventory[10];
+
+    Item equipment[EQUIPMENT_SIZE];
+    Item inventory[INVENTORY_SIZE];
 } Player;
 
-// Global instance defined in player.c
 extern Player player;
 
-// Function prototypes
-void initPlayer(int startX, int startY);
-void movePlayer(int dx, int dy);
+void initPlayer(unsigned char startX, unsigned char startY);
+void setPlayerPos(unsigned char x, unsigned char y);
+void movePlayer(signed char dx, signed char dy);
+void modifyStat(StatType stat, int amount);
+void calculateStats();
+void setNorth();
+void setEast();
+void setSouth();
+void setWest();
+int getPlayerBaseTotal();
 
 #endif

@@ -41,10 +41,7 @@
 #define COLOR_TEAL        0x008080
 
 // UI
-#define COLOR_HP_RED      0xE03030
-#define COLOR_MP_BLUE     0x3060E0
-#define COLOR_XP_GREEN    0x30C030
-#define COLOR_UI_BG       0x111111
-#define COLOR_UI_BORDER   0x555555
+#define COLOR_SIDEBAR     0x2A3550
+#define COLOR_TEXT		  0xB0B0B0
 
 #endif

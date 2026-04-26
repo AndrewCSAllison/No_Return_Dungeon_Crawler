@@ -39,6 +39,6 @@ extern TileType grid[GRID_ROWS][GRID_COLS];
 
 Vec2 generateDoor();
 void generateLadder();
-void loadNextRoom();
+int loadNextRoom();
 
 #endif

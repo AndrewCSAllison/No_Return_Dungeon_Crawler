@@ -1,10 +1,6 @@
 #include "items.h"
 #include "random.h"
 
-/* * ITEM_CATALOG Definition
- * Values are scaled based on a 100/255 base/max stat ratio.
- * Tiers 1-3 provide progressively higher base values.
- */
 const Item ITEM_CATALOG[] = {
 
     // --- ITEM_CHARM_STAT (Permanent Boosts) ---
@@ -43,7 +39,7 @@ const Item ITEM_CATALOG[] = {
     {"Runic Blade",        52, ITEM_EQUIPMENT, STAT_ATTACK,  3, 60},
 
     // STAT_DEFENSE: Shields
-    {"Wooden Lid",         60, ITEM_EQUIPMENT, STAT_DEFENSE, 1, 8},
+    {"Wooden Shield",      60, ITEM_EQUIPMENT, STAT_DEFENSE, 1, 8},
     {"Kite Shield",        61, ITEM_EQUIPMENT, STAT_DEFENSE, 2, 22},
     {"Aegis Shield",       62, ITEM_EQUIPMENT, STAT_DEFENSE, 3, 55},
 
@@ -65,12 +61,8 @@ const Item ITEM_CATALOG[] = {
 
 const unsigned char CATALOG_SIZE = sizeof(ITEM_CATALOG) / sizeof(ITEM_CATALOG[0]);
 
-/**
- * Internal helper to find a matching item in the catalog.
- * Returns a pointer to the Item or NULL if not found.
- */
-static const Item* find_in_catalog(ItemType type, StatType stat, unsigned char tier) {
-    for (unsigned char i = 0; i < CATALOG_SIZE; i++) {
+const Item* findInCatalog(ItemType type, StatType stat, unsigned int tier) {
+    for (unsigned int i = 0; i < CATALOG_SIZE; i++) {
         if (ITEM_CATALOG[i].type == type && ITEM_CATALOG[i].tier == tier) {
             // Special cases: Healing and Legendary don't care about the stat field
             if (type == ITEM_HEALING || type == ITEM_CHARM_LEGENDARY) {
@@ -85,85 +77,81 @@ static const Item* find_in_catalog(ItemType type, StatType stat, unsigned char t
     return 0; // Not found
 }
 
-unsigned char getBaseValueFromCatalog(ItemType type, StatType stat, unsigned char tier) {
-    const Item* item = find_in_catalog(type, stat, tier);
+unsigned int getBaseValueFromCatalog(ItemType type, StatType stat, unsigned int tier) {
+    const Item* item = findInCatalog(type, stat, tier);
     return item ? item->value : 0;
 }
 
-const char* getNameFromCatalog(ItemType type, StatType stat, unsigned char tier) {
-    const Item* item = find_in_catalog(type, stat, tier);
+const char* getNameFromCatalog(ItemType type, StatType stat, unsigned int tier) {
+    const Item* item = findInCatalog(type, stat, tier);
     return item ? item->name : "Unknown Item";
 }
 
-unsigned char getIDFromCatalog(ItemType type, StatType stat, unsigned char tier) {
-    const Item* item = find_in_catalog(type, stat, tier);
+unsigned int getIDFromCatalog(ItemType type, StatType stat, unsigned int tier) {
+    const Item* item = findInCatalog(type, stat, tier);
     return item ? item->itemID : 0;
 }
 
-unsigned char rollStats(unsigned char baseValue, unsigned char luck) {
-    float luckFactor = luck / 255.0f;
-    int maxVariance = (int)(baseValue * VARIANCE_PERCENT);
+unsigned int rollStat(unsigned int baseValue, unsigned int luck) {
+    int maxVariance = (baseValue * VARIANCE_PERCENT) / 100;
 
-    // This is the "floor" of our random roll (based on player luck)
-    int minRoll = (int)(maxVariance * luckFactor * LUCK_INFLUENCE);
-
-    // The range of the remaining randomness to roll for
+    // (maxVariance * luck * 66) / 25500
+    int minRoll = (maxVariance * luck * LUCK_INFLUENCE) / 25500;
     int remainingRange = maxVariance - minRoll;
 
-    return baseValue + minRoll + (unsigned char)rand(remainingRange + 1);
+    if (remainingRange <= 0) {
+        return baseValue + minRoll;
+    }
+
+    // UPDATED: Now passing (remainingRange + 1) as the parameter
+    return baseValue + minRoll + (unsigned int)rand(remainingRange + 1);
 }
 
-// Weighted thresholds for different tiered items
-unsigned char rollTier(unsigned char luck) {
-    float luckFactor = luck / 255.0f;
-
-    // We roll a value from 0-100 to determine "rarity"
+unsigned int rollTier(unsigned int luck) {
+    // UPDATED: Now passing 101 as the parameter to get 0-100
     unsigned int roll = rand(101);
 
-    // Base thresholds (Higher number = harder to hit)
-    // At 0 luck: Tier 3 is top 5%, Tier 2 is top 25%, else Tier 1
     int t3_threshold = 95;
     int t2_threshold = 75;
 
-    // Apply Luck: High luck lowers the threshold (makes higher tiers easier to hit)
-    // With max luck and a 20-point swing, T3 drops from 95 to 75.
-    t3_threshold -= (int)(20 * luckFactor);
-    t2_threshold -= (int)(30 * luckFactor);
+    t3_threshold -= (20 * luck) / 255;
+    t2_threshold -= (30 * luck) / 255;
 
-    if (roll >= t3_threshold) return 3;
-    if (roll >= t2_threshold) return 2;
+    if (roll >= (unsigned int)t3_threshold) return 3;
+    if (roll >= (unsigned int)t2_threshold) return 2;
 
     return 1;
 }
 
-Item generateItem(unsigned char luck) {
+Item generateItem(unsigned int luck) {
     Item newItem;
 
-    // 1. Roll Type (Weighted: 60% Equip, 30% Potion, 10% Charm)
+    // 1. Roll Type - UPDATED: rand(100)
     unsigned int typeRoll = rand(100);
-	if (typeRoll < 10) {
-		newItem.type = ITEM_CHARM_STAT;
-	else if (typeRoll < 40) {
-		newItem.type = ITEM_HEALING;
-	} else {
-		newItem.type = ITEM_EQUIPMENT;
-	}
-
-    // 2. Roll Tier (The Luck-Influenced Threshold)
-    newItem.tier = rollTier(luck);
-
-    // 3. Roll Stat (Ignore if Healing/Legendary)
-    if (newItem.type != ITEM_HEALING) {
-        newItem.stat = (StatType)rand(NUM_STATS);
+    if (typeRoll < 10) {
+        newItem.type = ITEM_CHARM_STAT;
+    } else if (typeRoll < 40) {
+        newItem.type = ITEM_HEALING;
     } else {
-        newItem.stat = STAT_HEALTH; // Potions always heal
+        newItem.type = ITEM_EQUIPMENT;
     }
 
-    // 4. Assemble Final Value & Name
-    unsigned char baseValue = getBaseValueFromCatalog(newItem.type, newItem.stat, newItem.tier);
-    newItem.value = rollStats(baseValue, luck);
+    // 2. Roll Tier
+    newItem.tier = rollTier(luck);
+
+    // 3. Roll Stat - UPDATED: rand(NUM_STATS)
+    if (newItem.type != ITEM_HEALING) {
+        // Returns 1 through NUM_STATS
+        newItem.stat = (StatType)(rand(NUM_STATS) + 1);
+    } else {
+        newItem.stat = STAT_HEALTH;
+    }
+
+    // 4. Assemble Final Item
+    unsigned int baseValue = getBaseValueFromCatalog(newItem.type, newItem.stat, newItem.tier);
+    newItem.value = rollStat(baseValue, luck);
     newItem.name = getNameFromCatalog(newItem.type, newItem.stat, newItem.tier);
-	newItem.itemID = getIDFromCatalog(newItem.type, newItem.stat, newItem.tier);
+    newItem.itemID = getIDFromCatalog(newItem.type, newItem.stat, newItem.tier);
 
     return newItem;
 }

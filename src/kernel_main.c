@@ -30,10 +30,11 @@
 #include "colors.h"
 #include "items.h"
 #include "random.h"
-#include "render.h"
 #include "input.h"
-#include "fonts.h"
-#include "inventory.h"
+#include "player.h"
+#include "render.h"
+#include "log.h"
+#include "game.h"
 
 #define INFO_TYPE_KERNEL_LOAD_ADDR 0x15
 #define INFO_TYPE_CMD_LINE 1
@@ -184,25 +185,39 @@ void main() {
 	// Other logic setup prior to playing
 	seed_rng();
 	initFonts();
-
-	// Initialize room, entrance/exit points of player
-	loadNextRoom();
-	Vec2 spawn = generateDoor();
-	initPlayer(spawn.x, spawn.y);
-	generateLadder(spawn.x, spawn.y);
-
-	// Draw to graphics buffer events
-	renderGrid();
-	renderPlayer();
-	renderInventory();
-
-	inventory[0].type = ITEM_CHARM_STAT;
-	drawString(ter_u14n_psf, " System Initialized...", SIDEBAR_START, 100, COLOR_BLACK);
+	Vec2 spawn;
 	while(1) {
-		asm("hlt");
-		if(last_key) {
-        	handleInput();
-			renderPlayer();
-    	}
+    	asm("hlt"); // Wait for keyboard interrupt
+    	if(last_key) {
+       		if (currentState == STATE_START) {
+        	    // Any key press transitions to the game
+        	    loadNextRoom();
+				spawn = generateDoor();
+				initPlayer(spawn.x, spawn.y);
+				generateLadder(spawn.x, spawn.y);
+				renderGrid();
+				renderPlayer();
+				renderSidebar();
+				switchState(STATE_EXPLORE);
+        	} else if (currentState == STATE_INVENTORY) {
+    				handleInventoryInput();
+    				renderInventory();
+					renderEquipment();
+					renderConsole();
+					renderStats();
+    			if (currentState == STATE_INVENTORY) {
+        			renderSelectedSlot();
+    			}
+			} else if (currentState == STATE_EXPLORE) {
+            	handleInput();
+				if (currentState != STATE_EXPLORE) {
+					renderSelectedSlot();
+				} else {
+					renderPlayer();
+        		}
+			}
+        	last_key = 0; // Clear the key input
+		}
 	}
 }
+

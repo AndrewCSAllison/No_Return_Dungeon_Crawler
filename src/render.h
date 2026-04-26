@@ -3,9 +3,13 @@
 
 static int last_px;
 static int last_py;
+static signed char lastInventoryIndex;
 
 void renderGrid();
-void renderInventory();
 void renderPlayer();
+void renderEquipment();
+void renderInventory();
+void renderSelectedSlot();
+void renderSidebar();
 
 #endif

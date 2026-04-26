@@ -2,6 +2,7 @@
 #include "colors.h"
 #include "maps.h"
 #include "random.h"
+#include "log.h"
 #include "util.h"
 
 TileType grid[GRID_ROWS][GRID_COLS];
@@ -110,9 +111,10 @@ void generateLadder(int px, int py) {
     }
 }
 
-void loadNextRoom() {
+int loadNextRoom() {
     int pick = rand(8);
     size_t totalBytes = sizeof(grid);
 
     memcpy(grid, mapCatalog[pick], totalBytes);
+	return pick;
 }
