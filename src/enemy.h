@@ -4,9 +4,7 @@
 #include "grid.h"
 #include "items.h"
 
-// ---------------------------------------------------------------------------
 // Tuning constants
-// ---------------------------------------------------------------------------
 #define MAX_ENEMIES         16
 #define MAX_STAT            999
 
@@ -18,11 +16,17 @@
 #define MAX_ENEMY_SPAWNS    16
 
 // Minimum gap (in tiles) between any two spawned entities
-#define MIN_SPAWN_DISTANCE   0
+#define MIN_SPAWN_DISTANCE   1
 
-// ---------------------------------------------------------------------------
+typedef enum {
+	GOBLIN,
+	GOO,
+	MAGE,
+	SKELETON,
+	MAGIC_SHIELD,
+} EnemyType;
+
 // Enemy struct
-// ---------------------------------------------------------------------------
 typedef struct {
     char x;
     char y;
@@ -34,18 +38,14 @@ typedef struct {
     int  lck;
     int  isElite;   // 0 = regular, 1 = elite
     int  alive;
+	EnemyType type;
 } Enemy;
 
-// ---------------------------------------------------------------------------
 // Extern declarations
-// ---------------------------------------------------------------------------
 extern Enemy enemies[MAX_ENEMIES];
 extern int   enemyCount;   // Active enemies this stage (<=MAX_ENEMY_SPAWNS)
 
-// ---------------------------------------------------------------------------
 // Function declarations
-// ---------------------------------------------------------------------------
-
 int getEnemyAtTile(int x, int y);
 
 // Returns a Vec2 of a random FLOOR tile; (-1,-1) if none found.

@@ -1,57 +1,50 @@
 #include "items.h"
 #include "random.h"
+#include "player.h"
 
 // ---------------------------------------------------------------------------
 // Catalog
 // ---------------------------------------------------------------------------
 const Item ITEM_CATALOG[] = {
-
     // --- ITEM_CHARM_STAT (Permanent Boosts) ---
-    {"Minor Health Charm",     ITEM_ID_MINOR_HEALTH_CHARM,     ITEM_CHARM_STAT, STAT_HEALTH,  1,  3},
-    {"Major Health Charm",     ITEM_ID_MAJOR_HEALTH_CHARM,     ITEM_CHARM_STAT, STAT_HEALTH,  2,  5},
-    {"Superior Health Charm",  ITEM_ID_SUPERIOR_HEALTH_CHARM,  ITEM_CHARM_STAT, STAT_HEALTH,  3, 10},
-
-    {"Minor Attack Charm",     ITEM_ID_MINOR_ATTACK_CHARM,     ITEM_CHARM_STAT, STAT_ATTACK,  1,  3},
-    {"Major Attack Charm",     ITEM_ID_MAJOR_ATTACK_CHARM,     ITEM_CHARM_STAT, STAT_ATTACK,  2,  5},
-    {"Superior Attack Charm",  ITEM_ID_SUPERIOR_ATTACK_CHARM,  ITEM_CHARM_STAT, STAT_ATTACK,  3, 10},
-
-    {"Minor Defense Charm",    ITEM_ID_MINOR_DEFENSE_CHARM,    ITEM_CHARM_STAT, STAT_DEFENSE, 1,  3},
-    {"Major Defense Charm",    ITEM_ID_MAJOR_DEFENSE_CHARM,    ITEM_CHARM_STAT, STAT_DEFENSE, 2,  5},
-    {"Superior Defense Charm", ITEM_ID_SUPERIOR_DEFENSE_CHARM, ITEM_CHARM_STAT, STAT_DEFENSE, 3, 10},
-
-    {"Minor Speed Charm",      ITEM_ID_MINOR_SPEED_CHARM,      ITEM_CHARM_STAT, STAT_SPEED,   1,  3},
-    {"Major Speed Charm",      ITEM_ID_MAJOR_SPEED_CHARM,      ITEM_CHARM_STAT, STAT_SPEED,   2,  5},
-    {"Superior Speed Charm",   ITEM_ID_SUPERIOR_SPEED_CHARM,   ITEM_CHARM_STAT, STAT_SPEED,   3, 10},
-
-    {"Minor Luck Charm",       ITEM_ID_MINOR_LUCK_CHARM,       ITEM_CHARM_STAT, STAT_LUCK,    1,  3},
-    {"Major Luck Charm",       ITEM_ID_MAJOR_LUCK_CHARM,       ITEM_CHARM_STAT, STAT_LUCK,    2,  5},
-    {"Superior Luck Charm",    ITEM_ID_SUPERIOR_LUCK_CHARM,    ITEM_CHARM_STAT, STAT_LUCK,    3, 10},
-
+    {"Minor Health Charm",     ITEM_ID_MINOR_HEALTH_CHARM,     ITEM_CHARM_STAT, STAT_HEALTH,  1, 10},
+    {"Major Health Charm",     ITEM_ID_MAJOR_HEALTH_CHARM,     ITEM_CHARM_STAT, STAT_HEALTH,  2, 25},
+    {"Superior Health Charm",  ITEM_ID_SUPERIOR_HEALTH_CHARM,  ITEM_CHARM_STAT, STAT_HEALTH,  3, 45},
+    {"Minor Attack Charm",     ITEM_ID_MINOR_ATTACK_CHARM,     ITEM_CHARM_STAT, STAT_ATTACK,  1,  8},
+    {"Major Attack Charm",     ITEM_ID_MAJOR_ATTACK_CHARM,     ITEM_CHARM_STAT, STAT_ATTACK,  2, 18},
+    {"Superior Attack Charm",  ITEM_ID_SUPERIOR_ATTACK_CHARM,  ITEM_CHARM_STAT, STAT_ATTACK,  3, 30},
+    {"Minor Defense Charm",    ITEM_ID_MINOR_DEFENSE_CHARM,    ITEM_CHARM_STAT, STAT_DEFENSE, 1,  8},
+    {"Major Defense Charm",    ITEM_ID_MAJOR_DEFENSE_CHARM,    ITEM_CHARM_STAT, STAT_DEFENSE, 2, 18},
+    {"Superior Defense Charm", ITEM_ID_SUPERIOR_DEFENSE_CHARM, ITEM_CHARM_STAT, STAT_DEFENSE, 3, 30},
+    {"Minor Speed Charm",      ITEM_ID_MINOR_SPEED_CHARM,      ITEM_CHARM_STAT, STAT_SPEED,   1,  8},
+    {"Major Speed Charm",      ITEM_ID_MAJOR_SPEED_CHARM,      ITEM_CHARM_STAT, STAT_SPEED,   2, 18},
+    {"Superior Speed Charm",   ITEM_ID_SUPERIOR_SPEED_CHARM,   ITEM_CHARM_STAT, STAT_SPEED,   3, 30},
+    {"Minor Luck Charm",       ITEM_ID_MINOR_LUCK_CHARM,       ITEM_CHARM_STAT, STAT_LUCK,    1,  5},
+    {"Major Luck Charm",       ITEM_ID_MAJOR_LUCK_CHARM,       ITEM_CHARM_STAT, STAT_LUCK,    2, 12},
+    {"Superior Luck Charm",    ITEM_ID_SUPERIOR_LUCK_CHARM,    ITEM_CHARM_STAT, STAT_LUCK,    3, 22},
     // --- ITEM_CHARM_LEGENDARY ---
-    {"Legendary Soulstone",    ITEM_ID_LEGENDARY_SOULSTONE,    ITEM_CHARM_LEGENDARY, STAT_ALL, 3, 10},
-
+    {"Legendary Soulstone",    ITEM_ID_LEGENDARY_SOULSTONE,    ITEM_CHARM_LEGENDARY, STAT_ALL, 3, 20},
     // --- ITEM_EQUIPMENT ---
     // Chestplates (STAT_HEALTH)
-    {"Leather Tunic",          ITEM_ID_LEATHER_TUNIC,          ITEM_EQUIPMENT, STAT_HEALTH,  1, 15},
-    {"Chainmail Plate",        ITEM_ID_CHAINMAIL_PLATE,        ITEM_EQUIPMENT, STAT_HEALTH,  2, 35},
-    {"Draconic Armor",         ITEM_ID_DRACONIC_ARMOR,         ITEM_EQUIPMENT, STAT_HEALTH,  3, 80},
+    {"Leather Tunic",          ITEM_ID_LEATHER_TUNIC,          ITEM_EQUIPMENT, STAT_HEALTH,  1, 20},
+    {"Chainmail Plate",        ITEM_ID_CHAINMAIL_PLATE,        ITEM_EQUIPMENT, STAT_HEALTH,  2, 45},
+    {"Draconic Armor",         ITEM_ID_DRACONIC_ARMOR,         ITEM_EQUIPMENT, STAT_HEALTH,  3, 90},
     // Swords (STAT_ATTACK)
-    {"Rusty Dagger",           ITEM_ID_RUSTY_DAGGER,           ITEM_EQUIPMENT, STAT_ATTACK,  1, 10},
-    {"Steel Longsword",        ITEM_ID_STEEL_LONGSWORD,        ITEM_EQUIPMENT, STAT_ATTACK,  2, 25},
+    {"Rusty Dagger",           ITEM_ID_RUSTY_DAGGER,           ITEM_EQUIPMENT, STAT_ATTACK,  1, 12},
+    {"Steel Longsword",        ITEM_ID_STEEL_LONGSWORD,        ITEM_EQUIPMENT, STAT_ATTACK,  2, 28},
     {"Runic Blade",            ITEM_ID_RUNIC_BLADE,            ITEM_EQUIPMENT, STAT_ATTACK,  3, 60},
     // Shields (STAT_DEFENSE)
-    {"Wooden Shield",          ITEM_ID_WOODEN_SHIELD,          ITEM_EQUIPMENT, STAT_DEFENSE, 1,  8},
-    {"Kite Shield",            ITEM_ID_KITE_SHIELD,            ITEM_EQUIPMENT, STAT_DEFENSE, 2, 22},
+    {"Wooden Shield",          ITEM_ID_WOODEN_SHIELD,          ITEM_EQUIPMENT, STAT_DEFENSE, 1, 10},
+    {"Kite Shield",            ITEM_ID_KITE_SHIELD,            ITEM_EQUIPMENT, STAT_DEFENSE, 2, 25},
     {"Aegis Shield",           ITEM_ID_AEGIS_SHIELD,           ITEM_EQUIPMENT, STAT_DEFENSE, 3, 55},
     // Boots (STAT_SPEED)
-    {"Cloth Wraps",            ITEM_ID_CLOTH_WRAPS,            ITEM_EQUIPMENT, STAT_SPEED,   1,  5},
-    {"Leather Boots",          ITEM_ID_LEATHER_BOOTS,          ITEM_EQUIPMENT, STAT_SPEED,   2, 25},
-    {"Hermes Sandals",         ITEM_ID_HERMES_SANDALS,         ITEM_EQUIPMENT, STAT_SPEED,   3, 50},
+    {"Cloth Wraps",            ITEM_ID_CLOTH_WRAPS,            ITEM_EQUIPMENT, STAT_SPEED,   1,  8},
+    {"Leather Boots",          ITEM_ID_LEATHER_BOOTS,          ITEM_EQUIPMENT, STAT_SPEED,   2, 20},
+    {"Hermes Sandals",         ITEM_ID_HERMES_SANDALS,         ITEM_EQUIPMENT, STAT_SPEED,   3, 45},
     // Rings (STAT_LUCK)
-    {"Copper Band",            ITEM_ID_COPPER_BAND,            ITEM_EQUIPMENT, STAT_LUCK,    1,  2},
-    {"Silver Signet",          ITEM_ID_SILVER_SIGNET,          ITEM_EQUIPMENT, STAT_LUCK,    2,  8},
-    {"Midas Touch",            ITEM_ID_MIDAS_TOUCH,            ITEM_EQUIPMENT, STAT_LUCK,    3, 25},
-
+    {"Copper Band",            ITEM_ID_COPPER_BAND,            ITEM_EQUIPMENT, STAT_LUCK,    1,  5},
+    {"Silver Signet",          ITEM_ID_SILVER_SIGNET,          ITEM_EQUIPMENT, STAT_LUCK,    2, 15},
+    {"Midas Touch",            ITEM_ID_MIDAS_TOUCH,            ITEM_EQUIPMENT, STAT_LUCK,    3, 30},
     // --- ITEM_HEALING ---
     {"Small Potion",           ITEM_ID_SMALL_POTION,           ITEM_HEALING, STAT_HEALTH,    1,  25},
     {"Medium Potion",          ITEM_ID_MEDIUM_POTION,          ITEM_HEALING, STAT_HEALTH,    2,  60},
@@ -100,7 +93,7 @@ unsigned int rollStat(unsigned int baseValue, unsigned int luck) {
     int maxVariance = (int)((baseValue * VARIANCE_PERCENT) / 100);
     if (maxVariance < MIN_VARIANCE) maxVariance = MIN_VARIANCE;
 
-    int minRoll = (maxVariance * (int)luck * LUCK_INFLUENCE) / 25500;
+    int minRoll = (maxVariance * (int)luck * LUCK_INFLUENCE) / (MAX_STAT * 100);
     int remainingRange = maxVariance - minRoll;
 
     if (remainingRange <= 0) {
@@ -116,8 +109,8 @@ unsigned int rollTier(unsigned int luck, int isElite) {
     int t3 = isElite ? ELITE_T3_BASE : NORMAL_T3_BASE;
     int t2 = isElite ? ELITE_T2_BASE : NORMAL_T2_BASE;
 
-    t3 -= (20 * (int)luck) / 255;
-    t2 -= (30 * (int)luck) / 255;
+    t3 -= (15 * (int)luck) / 999;
+    t2 -= (30 * (int)luck) / 999;
 
     if ((int)roll >= t3) return 3;
     if ((int)roll >= t2) return 2;
@@ -134,7 +127,7 @@ unsigned int rollTier(unsigned int luck, int isElite) {
  * ITEM_EQUIPMENT is reserved for chests (see generateChestItem).
  *
  * Drop distribution:
- *   Elite:   5% legendary, 55% charm, 40% healing
+ *   Elite:   5% legendary, 75% charm, 25% healing
  *   Regular: 0% legendary, 40% charm, 60% healing
  */
 Item generateItem(unsigned int luck, int isElite) {
@@ -151,9 +144,11 @@ Item generateItem(unsigned int luck, int isElite) {
         return newItem;
     }
 
+	typeRoll = rand(100);
+
     if (isElite) {
-        // 55% charm, 40% healing (after legendary window)
-        if (typeRoll < 55) newItem.type = ITEM_CHARM_STAT;
+        // 75% charm, 25% healing (after legendary window)
+        if (typeRoll < 75) newItem.type = ITEM_CHARM_STAT;
         else               newItem.type = ITEM_HEALING;
     } else {
         // 40% charm, 60% healing

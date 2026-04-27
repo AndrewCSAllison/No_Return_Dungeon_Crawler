@@ -5,6 +5,7 @@
 #include "colors.h"
 #include "inventory.h"
 #include "fonts.h"
+#include "textures.h"
 
 static int last_px = -1;
 static int last_py = -1;
@@ -47,7 +48,7 @@ void renderConsole() {
 }
 
 void renderEnemies() {
-	drawEnemies();
+    drawEnemies();
 }
 
 void renderSelectedSlot() {
@@ -68,4 +69,12 @@ void renderSidebar() {
 	renderStats();
 	renderEquipment();
 	renderInventory();
+}
+
+void renderStartScreen() {
+	drawGimpSprite(0, 0, startScreen, 1024, 765);
+}
+
+void renderEndScreen() {
+	drawGimpSprite(0, 0, endScreen, 1024, 765);
 }

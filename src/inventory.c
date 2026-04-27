@@ -28,14 +28,14 @@ void addItem(Item *item) {
     }
 }
 
-void removeItem(unsigned char index) {
-    if (index < INVENTORY_SIZE) {
-        player.inventory[index].name = "";
-        player.inventory[index].itemID = ITEM_ID_NONE;
-        player.inventory[index].type = ITEM_NONE;
-        player.inventory[index].stat = STAT_NONE;
-        player.inventory[index].tier = 0;
-        player.inventory[index].value = 0;
+void removeItem(unsigned char i) {
+    if (i < INVENTORY_SIZE) {
+		player.inventory[i].name = "";
+        player.inventory[i].itemID = ITEM_ID_NONE;
+        player.inventory[i].type = ITEM_NONE;
+        player.inventory[i].stat = STAT_NONE;
+        player.inventory[i].tier = 0;
+        player.inventory[i].value = 0;
     }
 }
 
@@ -44,6 +44,18 @@ void moveItem(signed char fromIndex, signed char toIndex) {
         player.inventory[toIndex] = player.inventory[fromIndex];
         removeItem(fromIndex);
     }
+}
+
+void tossItem(unsigned char i) {
+	if (i < INVENTORY_SIZE && player.inventory[i].type != ITEM_NONE) {
+		logMessage(buildLog("Tossed ", player.inventory[i].name, 0));
+		player.inventory[i].name = "";
+        player.inventory[i].itemID = ITEM_ID_NONE;
+        player.inventory[i].type = ITEM_NONE;
+        player.inventory[i].stat = STAT_NONE;
+        player.inventory[i].tier = 0;
+        player.inventory[i].value = 0;
+	}
 }
 
 void useItem() {

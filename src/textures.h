@@ -1,6 +1,11 @@
 #ifndef TEXTURES_H
 #define TEXTURES_H
 
+#include "grid.h"
+#include "items.h"
+#include "player.h"
+#include "enemy.h"
+
 // TILES
 #include "textures/tiles/floor_48x48.c"
 #include "textures/tiles/wall_48x48.c"
@@ -55,7 +60,7 @@
 #include "textures/items/mediumPotion_64x64.c"
 #include "textures/items/largePotion_64x64.c"
 
-// PLAYERS
+// PLAYER
 #include "textures/player/playerNorth1.c"
 #include "textures/player/playerNorth2.c"
 #include "textures/player/playerEast1.c"
@@ -64,6 +69,17 @@
 #include "textures/player/playerSouth2.c"
 #include "textures/player/playerWest1.c"
 #include "textures/player/playerWest2.c"
+
+// ENEMIES
+#include "textures/enemies/goblin_48x48.c"
+#include "textures/enemies/goo_48x48.c"
+#include "textures/enemies/mage_48x48.c"
+#include "textures/enemies/magicShield_48x48.c"
+#include "textures/enemies/skeleton_48x48.c"
+
+// SPLASH ART
+#include "textures/splashArt/startScreen.c"
+#include "textures/splashArt/endScreen.c"
 
 static const guint8 *tile_textures[] = {
     // Standard Navigation
@@ -154,5 +170,16 @@ static const guint8 *player_textures[] = {
 	[WEST1]  = playerWest1_tex.pixel_data,
 	[WEST2]  = playerWest2_tex.pixel_data,
 };
+
+static const guint8 *enemy_textures[] = {
+	[GOBLIN]		= goblin_tex.pixel_data,
+	[GOO]			= goo_tex.pixel_data,
+	[MAGE]			= mage_tex.pixel_data,
+	[MAGIC_SHIELD]	= magicShield_tex.pixel_data,
+	[SKELETON]		= skeleton_tex.pixel_data,
+};
+
+static const guint8 *startScreen = startScreen_tex.pixel_data;
+static const guint8 *endScreen = endScreen_tex.pixel_data;
 
 #endif

@@ -104,12 +104,14 @@ void spawnEnemies(int count, int playerBaseTotal, int playerLuck) {
         Vec2 pos = findFreeTile();
         if (pos.x == -1) break;
 
+		EnemyType type = rand(5);
         Enemy *e = &enemies[enemyCount];
 
         e->x       = (char)pos.x;
         e->y       = (char)pos.y;
         e->isElite = ((int)rand(100) < eliteChance) ? 1 : 0;
         e->alive   = 1;
+		e->type    = type;
 
         rollEnemyStats(e, playerBaseTotal, e->isElite);
 

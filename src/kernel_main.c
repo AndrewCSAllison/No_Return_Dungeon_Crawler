@@ -24,7 +24,6 @@
 
 
 #include <stdint.h>
-#include "draw.h"
 #include "interrupt.h"
 #include "grid.h"
 #include "colors.h"
@@ -179,7 +178,7 @@ void main() {
     parseMultiboot2Info();
 
     // White out the screen
-    whiteScreen();
+    renderStartScreen();
 
 	// Setup interrupts & pit handler for controls & internal clock
 	setupIDT();
@@ -189,46 +188,59 @@ void main() {
 	initFonts();
 	Vec2 spawn;
 	while(1) {
-    	asm("hlt"); // Wait for keyboard interrupt
-    	if(last_key) {
-       		if (currentState == STATE_START) {
-        	    // Any key press transitions to the game
-        	    loadNextRoom();
-				spawn = generateDoor();
-				initPlayer(spawn.x, spawn.y);
-				generateLadder(spawn.x, spawn.y);
+    asm("hlt"); // Wait for keyboard interrupt
+    if(last_key) {
+        if (currentState == STATE_START) {
+            // Logic to start the first game
+            loadNextRoom();
+            spawn = generateDoor();
+            initPlayer(spawn.x, spawn.y);
+            generateLadder(spawn.x, spawn.y);
 
-				int enemyCount  = 4 + (player.luck * (MAX_ENEMY_SPAWNS - 4)) / MAX_STAT;
-				int damageCount = 4 + (player.luck * (MAX_DAMAGE_SPAWNS - 4)) / MAX_STAT;
-				int chestCount  = 1 + (player.luck * (MAX_CHEST_SPAWNS - 1)) / MAX_STAT;
+            int enemyCount  = 4 + (player.luck * (MAX_ENEMY_SPAWNS - 4)) / MAX_STAT;
+            int damageCount = 4 + (player.luck * (MAX_DAMAGE_SPAWNS - 4)) / MAX_STAT;
+            int chestCount  = 1 + (player.luck * (MAX_CHEST_SPAWNS - 1)) / MAX_STAT;
 
-				spawnEnemies(enemyCount, getPlayerBaseTotal(), player.luck);
-				spawnDamageTiles(damageCount);
-				spawnChests(chestCount);
+            spawnEnemies(enemyCount, getPlayerBaseTotal(), player.luck);
+            spawnDamageTiles(damageCount);
+            spawnChests(chestCount);
 
-				renderGrid();
-				renderPlayer();
-				renderSidebar();
-				switchState(STATE_EXPLORE);
-        	} else if (currentState == STATE_INVENTORY) {
-    				handleInventoryInput();
-    				renderInventory();
-					renderEquipment();
-					renderConsole();
-					renderStats();
-    			if (currentState == STATE_INVENTORY) {
-        			renderSelectedSlot();
-    			}
-			} else if (currentState == STATE_EXPLORE) {
-            	handleInput();
-				if (currentState != STATE_EXPLORE) {
-					renderSelectedSlot();
-				} else {
-					renderPlayer();
-        		}
-			}
-        	last_key = 0; // Clear the key input
-		}
-	}
+            renderGrid();
+            renderPlayer();
+            renderSidebar();
+            renderEnemies();
+            switchState(STATE_EXPLORE);
+
+        } else if (currentState == STATE_DEATH) {
+            // --- RESTART LOGIC ---
+            // 1. Reset player stats/inventory (if not handled by initPlayer)
+            // 2. Transition back to start screen or jump straight into a new game
+            switchState(STATE_START); 
+            renderStartScreen(); // Show the "No Return" screen again
+
+        } else if (currentState == STATE_INVENTORY) {
+            handleInventoryInput();
+            renderInventory();
+            renderEquipment();
+            renderConsole();
+            renderStats();
+            if (currentState == STATE_INVENTORY) {
+                renderSelectedSlot();
+            }
+
+        } else if (currentState == STATE_EXPLORE) {
+            handleInput();
+            if (currentState == STATE_INVENTORY) {
+                renderSelectedSlot();
+            } else if (currentState == STATE_DEATH) {
+                renderEndScreen(); // Draw the Game Over image
+            } else {
+                renderEnemies();
+                renderPlayer();
+            }
+        }
+        last_key = 0; // Clear the key input
+    }
+}
 }
 

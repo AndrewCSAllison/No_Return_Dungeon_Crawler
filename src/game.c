@@ -95,7 +95,7 @@ void attackEnemy() {
     Enemy *e = &enemies[idx];
 
     int playerDmg = ABS(player.atk - e->def) / 2;
-    int enemyDmg  = ABS(e->atk - player.def) / 4;
+    int enemyDmg  = ABS(e->atk - player.def) / 5;
     if (playerDmg < 1) playerDmg = 1;
     if (enemyDmg  < 1) enemyDmg  = 1;
 

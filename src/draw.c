@@ -225,8 +225,11 @@ void drawTile(int row, int col, TileType type) {
     int y = row * TILE_SIZE;
     if (tile_textures[type])
         drawGimpSprite(x, y, tile_textures[type], TILE_SIZE, TILE_SIZE);
-    else
-        drawRect(x, y, TILE_SIZE, TILE_SIZE, COLOR_RED); // fallback
+    else if (type == ENEMY) {
+        drawGimpSprite(x, y, tile_textures[FLOOR], TILE_SIZE, TILE_SIZE);
+	} else {
+		drawRect(x, y, TILE_SIZE, TILE_SIZE, COLOR_RED);
+	}
 }
 
 // Draws the location of the player to the screen (updates on input)
@@ -401,10 +404,10 @@ void drawEnemies() {
     int i;
     for (i = 0; i < enemyCount; i++) {
         if (enemies[i].alive) {
-            drawTile(enemies[i].y, enemies[i].x, ENEMY);
+            drawGimpSprite(enemies[i].x * TILE_SIZE, enemies[i].y * TILE_SIZE, enemy_textures[enemies[i].type], TILE_SIZE, TILE_SIZE);
         } else {
-            drawTile(enemies[i].y, enemies[i].x, FLOOR);
-        }
+			drawTile(enemies[i].y, enemies[i].x, FLOOR);
+		}
     }
 }
 

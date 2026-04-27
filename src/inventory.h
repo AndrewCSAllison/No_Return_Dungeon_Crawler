@@ -15,9 +15,10 @@ extern signed char grabbedIndex;
 
 void initInventory();
 void addItem(Item *item);
-void removeItem(unsigned char index);
+void removeItem(unsigned char i);
 void moveItem(signed char fromIndex, signed char toIndex);
 void equipItem();
+void tossItem(unsigned char i);
 void useItem();
 void moveCursor(signed char dx, signed char dy);
 void grabOrSwap();

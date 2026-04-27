@@ -40,6 +40,7 @@ void handleInput() {
 			case 'e':
 				attackEnemy();
 				lootChest();
+				renderPlayer();
 				renderEnemies();
 				renderStats();
 				renderInventory();
@@ -53,11 +54,12 @@ void handleInput() {
 void handleInventoryInput() {
     if (last_key) {
         switch(last_key) {
-            case 'a': moveCursor(selectedIndex, selectedIndex - 1); break;
-            case 'd': moveCursor(selectedIndex, selectedIndex + 1); break;
+            case 'a' : moveCursor(selectedIndex, selectedIndex - 1); break;
+            case 'd' : moveCursor(selectedIndex, selectedIndex + 1); break;
             case '\t': switchState(STATE_EXPLORE); break;
-            case 'e': useItem();
-        	case ' ': grabOrSwap(); break;
+            case 'e' : useItem(); break;
+        	case ' ' : grabOrSwap(); break;
+			case '\b': tossItem(selectedIndex); break;
 		}
         last_key = 0;
     }
