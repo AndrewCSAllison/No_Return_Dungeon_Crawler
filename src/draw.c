@@ -416,3 +416,63 @@ void whiteScreen() {
         for (int x = 0; x < (int)fb.width; x++)
             drawPixel(x, y, COLOR_WHITE);
 }
+
+void drawDebugTextures() {
+    static const ItemID all_items[] = {
+        ITEM_ID_NONE,
+        ITEM_ID_MINOR_HEALTH_CHARM, ITEM_ID_MAJOR_HEALTH_CHARM, ITEM_ID_SUPERIOR_HEALTH_CHARM,
+        ITEM_ID_MINOR_ATTACK_CHARM, ITEM_ID_MAJOR_ATTACK_CHARM, ITEM_ID_SUPERIOR_ATTACK_CHARM,
+        ITEM_ID_MINOR_DEFENSE_CHARM, ITEM_ID_MAJOR_DEFENSE_CHARM, ITEM_ID_SUPERIOR_DEFENSE_CHARM,
+        ITEM_ID_MINOR_SPEED_CHARM, ITEM_ID_MAJOR_SPEED_CHARM, ITEM_ID_SUPERIOR_SPEED_CHARM,
+        ITEM_ID_MINOR_LUCK_CHARM, ITEM_ID_MAJOR_LUCK_CHARM, ITEM_ID_SUPERIOR_LUCK_CHARM,
+        ITEM_ID_LEGENDARY_SOULSTONE,
+        ITEM_ID_LEATHER_TUNIC, ITEM_ID_CHAINMAIL_PLATE, ITEM_ID_DRACONIC_ARMOR,
+        ITEM_ID_RUSTY_DAGGER, ITEM_ID_STEEL_LONGSWORD, ITEM_ID_RUNIC_BLADE,
+        ITEM_ID_WOODEN_SHIELD, ITEM_ID_KITE_SHIELD, ITEM_ID_AEGIS_SHIELD,
+        ITEM_ID_CLOTH_WRAPS, ITEM_ID_LEATHER_BOOTS, ITEM_ID_HERMES_SANDALS,
+        ITEM_ID_COPPER_BAND, ITEM_ID_SILVER_SIGNET, ITEM_ID_MIDAS_TOUCH,
+        ITEM_ID_SMALL_POTION, ITEM_ID_MEDIUM_POTION, ITEM_ID_LARGE_POTION,
+    };
+    static const int item_count = sizeof(all_items) / sizeof(all_items[0]);
+
+    drawRect(0, 0, fb.width, fb.height, 0x111111);
+
+    int x = 0, y = 0;
+
+    // TILES (48x48)
+    for (int i = 0; i < 15; i++) {
+        if (tile_textures[i]) {
+            drawGimpSprite(x, y, tile_textures[i], 48, 48);
+            x += 50;
+            if (x + 48 > (int)fb.width) { x = 0; y += 50; }
+        }
+    }
+    x = 0; y += 56;
+
+    // ENEMIES (48x48)
+    for (int i = 0; i < 5; i++) {
+        if (enemy_textures[i]) {
+            drawGimpSprite(x, y, enemy_textures[i], 48, 48);
+            x += 50;
+        }
+    }
+    x = 0; y += 56;
+
+    // PLAYER (48x48)
+    for (int i = 0; i < 8; i++) {
+        if (player_textures[i]) {
+            drawGimpSprite(x, y, player_textures[i], 48, 48);
+            x += 50;
+        }
+    }
+    x = 0; y += 56;
+
+    // ITEMS (64x64) - explicit IDs only, no gaps
+    for (int i = 0; i < item_count; i++) {
+        if (item_textures[all_items[i]]) {
+            drawGimpSprite(x, y, item_textures[all_items[i]], 64, 64);
+            x += 66;
+            if (x + 64 > (int)fb.width) { x = 0; y += 66; }
+        }
+    }
+}

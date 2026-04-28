@@ -53,5 +53,6 @@ void drawStats();
 void drawConsole();
 void drawEnemies();
 void whiteScreen();
+void drawDebugTextures();
 
 #endif

@@ -177,7 +177,7 @@ void main() {
     // of the framebuffer and the size of the screen.
     parseMultiboot2Info();
 
-    // White out the screen
+	//drawDebugTextures();
     renderStartScreen();
 
 	// Setup interrupts & pit handler for controls & internal clock
@@ -204,6 +204,7 @@ void main() {
             spawnEnemies(enemyCount, getPlayerBaseTotal(), player.luck);
             spawnDamageTiles(damageCount);
             spawnChests(chestCount);
+			clearLog();
 
             renderGrid();
             renderPlayer();
@@ -215,7 +216,7 @@ void main() {
             // --- RESTART LOGIC ---
             // 1. Reset player stats/inventory (if not handled by initPlayer)
             // 2. Transition back to start screen or jump straight into a new game
-            switchState(STATE_START); 
+            switchState(STATE_START);
             renderStartScreen(); // Show the "No Return" screen again
 
         } else if (currentState == STATE_INVENTORY) {

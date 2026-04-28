@@ -91,11 +91,11 @@ void initPlayer(unsigned char startX, unsigned char startY) {
     }
     stats[4] = pool;
 
-    player.baseHp   = 100 + stats[0];
-    player.baseAtk  = 100 + stats[1];
-    player.baseDef  = 100 + stats[2];
-    player.baseSpd  = 100 + stats[3];
-    player.baseLuck = 100 + stats[4];
+    player.baseHp   = 150 + stats[0];
+    player.baseAtk  = 150 + stats[1];
+    player.baseDef  = 150 + stats[2];
+    player.baseSpd  = 150 + stats[3];
+    player.baseLuck = 150 + stats[4];
 
     for (int i = 0; i < EQUIPMENT_SIZE; i++) {
         player.equipment[i].name   = "";

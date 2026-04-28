@@ -15,8 +15,6 @@ void initInventory() {
         player.inventory[i].tier = 0;
         player.inventory[i].value = 0;
     }
-	player.inventory[0] = ITEM_CATALOG[14];
-	player.inventory[1] = ITEM_CATALOG[20];
 }
 
 void addItem(Item *item) {

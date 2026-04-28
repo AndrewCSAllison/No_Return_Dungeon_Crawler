@@ -65,3 +65,9 @@ char *buildLogFull(const char *a, const char *b, const char *c, int value) {
     if (value != 0) intAppend(buf, value, &pos);
     return buf;
 }
+
+void clearLog() {
+    gameLog.head  = 0;
+    gameLog.tail  = 0;
+    gameLog.count = 0;
+}
